@@ -686,7 +686,51 @@ function buildHearts(){const track=document.getElementById('heartTrack');for(let
 function updateProgress(newHeartIndex=-1){document.getElementById('progressText').textContent=`${shownCount} / ${messages.length}`;const hearts=document.querySelectorAll('.heart');hearts.forEach((h,i)=>h.classList.toggle('filled',i<shownCount));if(newHeartIndex>=0&&hearts[newHeartIndex]){hearts[newHeartIndex].classList.remove('new');void hearts[newHeartIndex].offsetWidth;hearts[newHeartIndex].classList.add('new')}}
 function resetGame(){remaining=messages.map((_,i)=>i);shownCount=0;const m=document.getElementById('message'),b=document.getElementById('revealButton'),e=document.getElementById('emoji');m.className='message placeholder';m.textContent='Press the button to dispense a reminder.';e.textContent='✦';b.disabled=false;b.textContent='DISPENSE REMINDER';updateProgress()}
 function sparkles(){const chars=['✦','✧','♡','·'];for(let i=0;i<10;i++){const s=document.createElement('span');s.className='sparkle';s.textContent=chars[Math.floor(Math.random()*chars.length)];s.style.left=(43+Math.random()*14)+'%';s.style.top=(38+Math.random()*24)+'%';s.style.setProperty('--dx',((Math.random()-.5)*210)+'px');s.style.setProperty('--dy',((Math.random()-.5)*150)+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),1000)}}
-function revealMessage(){if(!remaining.length)return;sparkles();const flash=document.createElement('div');flash.className='big-reveal';document.body.appendChild(flash);setTimeout(()=>flash.remove(),600);const position=Math.floor(Math.random()*remaining.length),index=remaining.splice(position,1)[0];shownCount++;const display=document.getElementById('display');display.style.setProperty('--tilt',`${(Math.random()-.5)*1.2}deg`);display.classList.remove('pop');void display.offsetWidth;display.classList.add('pop');const emoji=document.getElementById('emoji'),message=document.getElementById('message'),text=messages[index],match=text.match(/^\S+\s/);emoji.classList.remove('reveal');void emoji.offsetWidth;emoji.textContent=match?text.slice(0,match[0].trim().length):'✦';emoji.classList.add('reveal');message.className='message';void message.offsetWidth;message.classList.add('show');message.textContent=match?text.slice(match[0].length):text;updateProgress(shownCount-1);if(!remaining.length){document.getElementById('revealButton').textContent='SOLD OUT';setTimeout(showCompletion,650)}}
+function revealMessage(){
+  if(!remaining.length){
+    showCompletion();
+    return;
+  }
+
+  sparkles();
+
+  const flash=document.createElement('div');
+  flash.className='big-reveal';
+  document.body.appendChild(flash);
+  setTimeout(()=>flash.remove(),600);
+
+  const position=Math.floor(Math.random()*remaining.length);
+  const index=remaining.splice(position,1)[0];
+  shownCount++;
+
+  const display=document.getElementById('display');
+  display.style.setProperty('--tilt',`${(Math.random()-.5)*1.2}deg`);
+  display.classList.remove('pop');
+  void display.offsetWidth;
+  display.classList.add('pop');
+
+  const emoji=document.getElementById('emoji');
+  const message=document.getElementById('message');
+  const text=messages[index];
+  const match=text.match(/^\S+\s/);
+
+  emoji.classList.remove('reveal');
+  void emoji.offsetWidth;
+  emoji.textContent=match?text.slice(0,match[0].trim().length):'✦';
+  emoji.classList.add('reveal');
+
+  message.className='message';
+  void message.offsetWidth;
+  message.classList.add('show');
+  message.textContent=match?text.slice(match[0].length):text;
+
+  updateProgress(shownCount-1);
+
+  if(!remaining.length){
+    document.getElementById('revealButton').textContent='FINISH';
+  }
+}
+
 function showCompletion(){const display=document.getElementById('display');display.innerHTML='<div class="completion"><div class="emoji">🎰</div><h2>50 / 50</h2><p>Restocking shortly.</p></div>';const b=document.getElementById('revealButton');b.disabled=true;b.textContent='SOLD OUT';sparkles()}
 </script>
 </body>
