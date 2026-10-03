@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eden, for when you need a reminder</title>
+<style>
+:root{--bg1:#fff8fb;--bg2:#f4efff;--text:#332b38;--muted:#786d79;--card:rgba(255,255,255,.8);--border:rgba(90,70,100,.12);--button:#6f547d;--buttonHover:#5f466c}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 15% 15%,rgba(255,190,218,.45),transparent 30%),radial-gradient(circle at 85% 80%,rgba(195,181,255,.42),transparent 32%),linear-gradient(135deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;padding:28px 18px;overflow-x:hidden}
+main{width:min(760px,100%);text-align:center}
+header{margin-bottom:28px}
+h1{margin:0;font-size:clamp(2.7rem,8vw,4.7rem);line-height:.95;letter-spacing:-.055em;font-weight:750}
+.subtitle{margin:12px 0 0;font-size:clamp(1rem,2.5vw,1.2rem);color:var(--muted);font-style:italic}
+.card{min-height:310px;padding:clamp(30px,6vw,58px);border:1px solid var(--border);border-radius:30px;background:var(--card);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 24px 70px rgba(70,48,78,.14);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.message{max-width:620px;min-height:130px;display:flex;align-items:center;justify-content:center;font-size:clamp(1.15rem,3vw,1.65rem);line-height:1.55;letter-spacing:-.01em}
+.message.placeholder{color:var(--muted);font-size:1.05rem;line-height:1.5}
+.message.show{animation:reveal .5s ease both}
+@keyframes reveal{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+button{border:0;border-radius:999px;background:var(--button);color:#fff;font:inherit;font-weight:700;padding:15px 30px;margin-top:25px;cursor:pointer;box-shadow:0 10px 25px rgba(75,50,85,.2);transition:transform .18s ease,background .18s ease,box-shadow .18s ease}
+button:hover{background:var(--buttonHover);transform:translateY(-2px);box-shadow:0 14px 30px rgba(75,50,85,.25)}
+button:active{transform:translateY(0) scale(.98)}
+button:disabled{opacity:.65;cursor:default}
+.progress{margin-top:22px;color:var(--muted);font-size:.9rem}
+.progress-bar{width:min(360px,80%);height:5px;margin:9px auto 0;border-radius:999px;background:rgba(90,70,100,.1);overflow:hidden}
+.progress-fill{height:100%;width:0;border-radius:inherit;background:var(--button);transition:width .35s ease}
+.reset{margin-top:16px;padding:8px 15px;background:transparent;color:var(--muted);box-shadow:none;font-size:.85rem;font-weight:600}
+.reset:hover{background:rgba(111,84,125,.08);color:var(--text);box-shadow:none}
+footer{margin-top:24px;color:rgba(120,109,121,.75);font-size:.78rem}
+@media(max-width:520px){body{padding:20px 14px}.card{min-height:350px;border-radius:24px}.message{min-height:170px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+  <div id="passwordScreen" class="password-screen">
+    <div class="password-box">
+      <h2>Eden</h2>
+      <p>for when you need a reminder</p>
+      <form id="passwordForm" class="password-form">
+        <input id="passwordInput" class="password-input" type="password"
+               placeholder="Password" autocomplete="off" aria-label="Password" required>
+        <button class="password-button" type="submit">Enter</button>
+      </form>
+      <p id="passwordError" class="password-error" aria-live="polite"></p>
+    </div>
+  </div>
+
+<script>
+const messages = [
+"😂 You make me laugh more than anyone - Sometimes you don't even have to try",
+"💗 You're incredibly kind - you think about your impact on other people",
+"🐱 You have a cute cat <3 (Not a euphemism, get your mind out of the gutter)",
+"🫶 You compliment and uplift strangers - you make everyone feel better about themselves when you don't always see it for yourself",
+"📞 You're there for me when I need it - you once said you would stay on the phone with me all night when I had anxiety about going to work",
+"✨ You take words that already exist and improve on them in the best way - Which I think is splendificent",
+"🎁 You buy me lil things when nobody else does - which I really appreciate",
+"🥹 You let me see sides of you that you don't always show others - and I am always grateful of that",
+"💛 You know the pain of going through mental health issues and never want anyone else to feel the same - you have a good way of uplifting people",
+"🥡 You care about other people in ways that most don't - I love how you always buy homeless people food when we're out",
+"🍽️ How you eat politely in public but are an absolute fiend when you're at home",
+"🤎 That tiny lil mole you have above your left eyebrow",
+"🌱 How you care about the environment",
+"🌿 How you love nature",
+"🐾 How you care about and treat animals",
+"😎 How you're cool without trying",
+"🚫 How you binned Nicki off after she became republican and weird",
+"💅 How you can absolutely serve a lewk and yet you have no idea how good you actually look",
+"😍 You're incredibly beautiful and have no idea",
+"☀️ How you cheer me up when I'm having a bad day",
+"🌎 You make the world a better place just by existing",
+"💖 You always make me feel appreciated and never take me for granted",
+"👀 You know how to read a bitch when it's required",
+"🤎 You have the prettiest brown eyes and they hold a lot of emotion",
+"😁 You don't smile often in your photos but you have a great smile",
+"🎮 How you carry my ass on Marvel Rivals then roast me for it",
+"🎨 You're an incredible artist and your art has a lot of depth",
+"💡 You're creative",
+"🧠 How you're the genius mind behind nickislefttit",
+"🤣 You do that lil snort laugh that makes me feel like I'm the funniest dude on the planet",
+"🥤 You tell me you don't drink fizzy drinks yet steal my Coke anyway :P",
+"🍦 You make fun of me for liking mint icecream (toothpaste ice cream)",
+"💪 Despite everything you'd been through, you still continue to fight",
+"🫂 You feel comfortable enough around me that you don't feel shy",
+"🎶 You sing the most random songs and sometimes remix it into a completely different song or hum the beat so wrong that nobody can tell what the song is",
+"👂 Even when the crazy barefoot man starts talking to you, you never make him feel like he's being a nuisance (even when he is) and listen to what he has to say",
+"🧘 You have a lot of patience",
+"💭 You always think about others before yourself",
+"❤️ You have a big heart",
+"🌷 You're very gentle",
+"✨ Being around you makes me feel good about myself and you make me feel alive and excited that I exist",
+"🥹 I miss you when you're not around (which clearly speaks for your personality)",
+"😏 You're mad cheeky",
+"💅 You're also mad sassy",
+"🕴️ Sometimes you jokingly act gangster but we both know better...",
+"🏴 You do a horrible Scottish accent and it makes me laugh (Sorry! :D)",
+"🎁 You keep everything anybody makes you as a souvenir which is very sweet",
+"🗣️ You're very honest and straight up in a world that isn't common anymore",
+"🌍 You make me believe in the good of the world again when most people are self absorbed (you're the complete opposite)",
+"🦴 You have the perfect bone structure"
+];
+
+const correctPassword = "Hazel<3";
+
+const passwordScreen = document.getElementById("passwordScreen");
+const passwordForm = document.getElementById("passwordForm");
+const passwordInput = document.getElementById("passwordInput");
+const passwordError = document.getElementById("passwordError");
+
+passwordForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  if (passwordInput.value === correctPassword) {
+    showReminderPage();
+  } else {
+    passwordError.textContent = "Uh uh... That's not the password.";
+    passwordInput.select();
+  }
+});
+
+function showReminderPage() {
+  document.body.innerHTML = `
+    <main>
+      <header>
+        <h1>Eden</h1>
+        <p class="subtitle">for when you need a lil reminder</p>
+      </header>
+
+      <section class="card" aria-live="polite">
+        <div id="message" class="message placeholder">Click the button to see one.</div>
+        <button id="revealButton" type="button">Click me</button>
+        <div class="progress">
+          <span id="progressText">0 / 50</span>
+          <div class="progress-bar" aria-hidden="true">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+        <button id="resetButton" class="reset" type="button">Start again</button>
+      </section>
+
+      <footer>50 reminders</footer>
+    </main>
+  `;
+
+  document.getElementById("revealButton").addEventListener("click", revealMessage);
+  document.getElementById("resetButton").addEventListener("click", resetGame);
+  resetGame();
+}
+
+let remaining = [];
+let shownCount = 0;
+
+function updateProgress() {
+  document.getElementById("progressText").textContent = `${shownCount} / ${messages.length}`;
+  document.getElementById("progressFill").style.width =
+    `${(shownCount / messages.length) * 100}%`;
+}
+
+function resetGame() {
+  remaining = messages.map((_, index) => index);
+  shownCount = 0;
+  const message = document.getElementById("message");
+  const button = document.getElementById("revealButton");
+  message.className = "message placeholder";
+  message.textContent = "Click the button to see one.";
+  button.disabled = false;
+  button.textContent = "Click me";
+  updateProgress();
+}
+
+function revealMessage() {
+  if (remaining.length === 0) {
+    const message = document.getElementById("message");
+    const button = document.getElementById("revealButton");
+    message.className = "message";
+    message.textContent = "You've seen them all.";
+    button.disabled = true;
+    button.textContent = "All done";
+    return;
+  }
+
+  const position = Math.floor(Math.random() * remaining.length);
+  const messageIndex = remaining.splice(position, 1)[0];
+  shownCount++;
+
+  const message = document.getElementById("message");
+  message.className = "message";
+  void message.offsetWidth;
+  message.classList.add("show");
+  message.textContent = messages[messageIndex];
+
+  updateProgress();
+
+  if (remaining.length === 0) {
+    document.getElementById("revealButton").textContent = "That's all";
+  }
+}
+</script>
+
+</body>
+</html>
