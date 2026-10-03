@@ -5,196 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eden, for when you need a reminder</title>
 <style>
-:root{--bg1:#fff8fb;--bg2:#f4efff;--text:#332b38;--muted:#786d79;--card:rgba(255,255,255,.8);--border:rgba(90,70,100,.12);--button:#6f547d;--buttonHover:#5f466c}
+:root{--text:#332b38;--muted:#786d79;--button:#6f547d;--button-hover:#5f466c}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 15% 15%,rgba(255,190,218,.45),transparent 30%),radial-gradient(circle at 85% 80%,rgba(195,181,255,.42),transparent 32%),linear-gradient(135deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;padding:28px 18px;overflow-x:hidden}
-main{width:min(760px,100%);text-align:center}
-header{margin-bottom:28px}
-h1{margin:0;font-size:clamp(2.7rem,8vw,4.7rem);line-height:.95;letter-spacing:-.055em;font-weight:750}
-.subtitle{margin:12px 0 0;font-size:clamp(1rem,2.5vw,1.2rem);color:var(--muted);font-style:italic}
-.card{min-height:310px;padding:clamp(30px,6vw,58px);border:1px solid var(--border);border-radius:30px;background:var(--card);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 24px 70px rgba(70,48,78,.14);display:flex;flex-direction:column;align-items:center;justify-content:center}
-.message{max-width:620px;min-height:130px;display:flex;align-items:center;justify-content:center;font-size:clamp(1.15rem,3vw,1.65rem);line-height:1.55;letter-spacing:-.01em}
-.message.placeholder{color:var(--muted);font-size:1.05rem;line-height:1.5}
-.message.show{animation:reveal .5s ease both}
-@keyframes reveal{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
-button{border:0;border-radius:999px;background:var(--button);color:#fff;font:inherit;font-weight:700;padding:15px 30px;margin-top:25px;cursor:pointer;box-shadow:0 10px 25px rgba(75,50,85,.2);transition:transform .18s ease,background .18s ease,box-shadow .18s ease}
-button:hover{background:var(--buttonHover);transform:translateY(-2px);box-shadow:0 14px 30px rgba(75,50,85,.25)}
-button:active{transform:translateY(0) scale(.98)}
-button:disabled{opacity:.65;cursor:default}
-.progress{margin-top:22px;color:var(--muted);font-size:.9rem}
-.progress-bar{width:min(360px,80%);height:5px;margin:9px auto 0;border-radius:999px;background:rgba(90,70,100,.1);overflow:hidden}
-.progress-fill{height:100%;width:0;border-radius:inherit;background:var(--button);transition:width .35s ease}
-.reset{margin-top:16px;padding:8px 15px;background:transparent;color:var(--muted);box-shadow:none;font-size:.85rem;font-weight:600}
-.reset:hover{background:rgba(111,84,125,.08);color:var(--text);box-shadow:none}
-footer{margin-top:24px;color:rgba(120,109,121,.75);font-size:.78rem}
-@media(max-width:520px){body{padding:20px 14px}.card{min-height:350px;border-radius:24px}.message{min-height:170px}}
+html,body{margin:0;min-height:100%;width:100%}
+body{min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 15% 15%,rgba(255,190,218,.48),transparent 30%),radial-gradient(circle at 85% 80%,rgba(195,181,255,.46),transparent 32%),linear-gradient(135deg,#fff8fb,#f4efff);display:flex;align-items:center;justify-content:center;padding:28px 18px;overflow-x:hidden}
+#floaties{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.floating-decor{position:absolute;font-size:1.35rem;opacity:.5;animation:drift 7s ease-in-out infinite}
+.float-dot{position:absolute;width:7px;height:7px;border-radius:50%;background:rgba(111,84,125,.2);animation:dotFloat 9s ease-in-out infinite}
+@keyframes drift{0%,100%{transform:translateY(0) rotate(0);opacity:.22}50%{transform:translateY(-24px) rotate(12deg);opacity:.7}}
+@keyframes dotFloat{0%,100%{transform:translate(0,0);opacity:.15}50%{transform:translate(18px,-28px);opacity:.5}}
+.screen{position:relative;z-index:2;width:min(760px,100%);text-align:center}
+.password-screen{display:flex;align-items:center;justify-content:center;min-height:70vh}
+.password-box{width:min(500px,100%);padding:42px 32px;border:1px solid rgba(90,70,100,.12);border-radius:32px;background:rgba(255,255,255,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 24px 70px rgba(70,48,78,.14)}
+.password-box h1{margin:0;font-size:clamp(3rem,10vw,5rem);line-height:.95;letter-spacing:-.055em;font-weight:750}
+.password-box p{margin:14px 0 26px;color:var(--muted);font-size:1.05rem;font-style:italic}
+.password-form{display:flex;gap:10px;justify-content:center}
+.password-input{min-width:0;flex:1;border:1px solid rgba(90,70,100,.16);border-radius:999px;padding:14px 18px;font:inherit;background:rgba(255,255,255,.85);outline:none}
+.password-input:focus{border-color:rgba(111,84,125,.5);box-shadow:0 0 0 4px rgba(111,84,125,.08)}
+.password-button,button{border:0;border-radius:999px;background:var(--button);color:#fff;font:inherit;font-weight:700;padding:14px 24px;cursor:pointer;box-shadow:0 10px 25px rgba(75,50,85,.2);transition:transform .18s ease,background .18s ease,box-shadow .18s ease}
+.password-button:hover,button:hover{background:var(--button-hover);transform:translateY(-2px);box-shadow:0 14px 30px rgba(75,50,85,.25)}
+.password-error{min-height:1.3em;margin:14px 0 0!important;color:#a04f68!important;font-style:normal!important;font-size:.9rem!important}
+main{width:min(760px,100%);text-align:center;position:relative;z-index:2}
+header{margin-bottom:28px}h1{margin:0;font-size:clamp(2.7rem,8vw,4.7rem);line-height:.95;letter-spacing:-.055em;font-weight:750}.subtitle{margin:12px 0 0;font-size:clamp(1rem,2.5vw,1.2rem);color:var(--muted);font-style:italic}
+.card{min-height:360px;padding:clamp(30px,6vw,58px);border:1px solid rgba(90,70,100,.12);border-radius:32px;background:rgba(255,255,255,.8);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 24px 70px rgba(70,48,78,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.card:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.28);top:-100px;right:-70px;pointer-events:none}
+.card.pop{animation:cardPop .55s cubic-bezier(.2,.85,.2,1) both}@keyframes cardPop{0%{transform:scale(.96) rotate(var(--tilt,0deg));opacity:.5}55%{transform:scale(1.025) rotate(var(--tilt,0deg));opacity:1}100%{transform:scale(1) rotate(0)}}
+.emoji{font-size:3rem;line-height:1;margin-bottom:18px;min-height:48px}.emoji.reveal{animation:pop .45s ease both}@keyframes pop{from{opacity:0;transform:scale(.55) rotate(-10deg)}to{opacity:1;transform:none}}
+.message{max-width:620px;min-height:130px;display:flex;align-items:center;justify-content:center;font-size:clamp(1.15rem,3vw,1.65rem);line-height:1.55;letter-spacing:-.01em}.message.placeholder{color:var(--muted);font-size:1.05rem;line-height:1.5}.message.show{animation:reveal .5s ease both}@keyframes reveal{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.reveal-button{position:relative;overflow:hidden}.reveal-button:after{content:"";position:absolute;top:-60%;left:-80%;width:45%;height:220%;transform:rotate(20deg);background:rgba(255,255,255,.2);transition:left .55s ease}.reveal-button:hover:after{left:135%}
+button:active{transform:translateY(0) scale(.98)}button:disabled{opacity:.65;cursor:default}
+.progress{margin-top:22px;color:var(--muted);font-size:.9rem}.progress-bar{width:min(360px,80%);height:5px;margin:9px auto 0;border-radius:999px;background:rgba(90,70,100,.1);overflow:hidden}.progress-fill{height:100%;width:0;border-radius:inherit;background:var(--button);transition:width .35s ease}.reset{margin-top:16px;padding:8px 15px;background:transparent;color:var(--muted);box-shadow:none;font-size:.85rem;font-weight:600}.reset:hover{background:rgba(111,84,125,.08);color:var(--text);box-shadow:none}footer{margin-top:24px;color:rgba(120,109,121,.75);font-size:.78rem}
+.big-reveal{position:fixed;inset:0;pointer-events:none;z-index:10;background:radial-gradient(circle at center,rgba(255,255,255,.3),transparent 45%);animation:flash .55s ease-out forwards}@keyframes flash{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
+.sparkle{position:fixed;z-index:11;pointer-events:none;font-size:1.25rem;animation:sparkleFly 1s ease-out forwards}@keyframes sparkleFly{0%{opacity:0;transform:translate(0,0) scale(.5)}20%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.15) rotate(25deg)}}
+.completion{min-height:360px}.completion .emoji{font-size:4rem}.completion h2{font-size:1.7rem;margin:10px 0}.completion p{color:var(--muted)}
+@media(max-width:520px){body{padding:20px 14px}.password-form{flex-direction:column}.password-button{width:100%}.card{min-height:350px;border-radius:24px}.message{min-height:170px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-  <div id="passwordScreen" class="password-screen">
-    <div class="password-box">
-      <h2>Eden</h2>
-      <p>for when you need a reminder</p>
-      <form id="passwordForm" class="password-form">
-        <input id="passwordInput" class="password-input" type="password"
-               placeholder="Password" autocomplete="off" aria-label="Password" required>
-        <button class="password-button" type="submit">Enter</button>
-      </form>
-      <p id="passwordError" class="password-error" aria-live="polite"></p>
-    </div>
-  </div>
-
+<div id="floaties" aria-hidden="true">
+<span class="floating-decor" style="left:8%;top:17%;animation-delay:-1s">✦</span><span class="floating-decor" style="left:88%;top:22%;animation-delay:-4s">♡</span><span class="floating-decor" style="left:12%;top:78%;animation-delay:-2s">✧</span><span class="floating-decor" style="left:91%;top:74%;animation-delay:-5s">·</span><span class="floating-decor" style="left:5%;top:47%;animation-delay:-3s">✦</span><span class="floating-decor" style="left:94%;top:48%;animation-delay:-6s">♡</span><span class="floating-decor" style="left:22%;top:8%;animation-delay:-2.5s">✧</span><span class="floating-decor" style="left:76%;top:9%;animation-delay:-5.5s">·</span><span class="floating-decor" style="left:25%;top:91%;animation-delay:-4.5s">♡</span><span class="floating-decor" style="left:78%;top:89%;animation-delay:-1.5s">✦</span>
+<span class="float-dot" style="left:18%;top:30%;animation-delay:-2s"></span><span class="float-dot" style="left:82%;top:35%;animation-delay:-6s"></span><span class="float-dot" style="left:30%;top:68%;animation-delay:-4s"></span><span class="float-dot" style="left:70%;top:62%;animation-delay:-1s"></span>
+</div>
+<div id="app" class="screen">
+<section id="passwordScreen" class="password-screen">
+<div class="password-box">
+<h1>Eden</h1><p>for when you need a reminder</p>
+<form id="passwordForm" class="password-form"><input id="passwordInput" class="password-input" type="password" placeholder="Password" autocomplete="off" aria-label="Password" required><button class="password-button" type="submit">Enter</button></form>
+<p id="passwordError" class="password-error" aria-live="polite"></p>
+</div>
+</section>
+</div>
 <script>
-const messages = [
-"😂 You make me laugh more than anyone - Sometimes you don't even have to try",
-"💗 You're incredibly kind - you think about your impact on other people",
-"🐱 You have a cute cat <3 (Not a euphemism, get your mind out of the gutter)",
-"🫶 You compliment and uplift strangers - you make everyone feel better about themselves when you don't always see it for yourself",
-"📞 You're there for me when I need it - you once said you would stay on the phone with me all night when I had anxiety about going to work",
-"✨ You take words that already exist and improve on them in the best way - Which I think is splendificent",
-"🎁 You buy me lil things when nobody else does - which I really appreciate",
-"🥹 You let me see sides of you that you don't always show others - and I am always grateful of that",
-"💛 You know the pain of going through mental health issues and never want anyone else to feel the same - you have a good way of uplifting people",
-"🥡 You care about other people in ways that most don't - I love how you always buy homeless people food when we're out",
-"🍽️ How you eat politely in public but are an absolute fiend when you're at home",
-"🤎 That tiny lil mole you have above your left eyebrow",
-"🌱 How you care about the environment",
-"🌿 How you love nature",
-"🐾 How you care about and treat animals",
-"😎 How you're cool without trying",
-"🚫 How you binned Nicki off after she became republican and weird",
-"💅 How you can absolutely serve a lewk and yet you have no idea how good you actually look",
-"😍 You're incredibly beautiful and have no idea",
-"☀️ How you cheer me up when I'm having a bad day",
-"🌎 You make the world a better place just by existing",
-"💖 You always make me feel appreciated and never take me for granted",
-"👀 You know how to read a bitch when it's required",
-"🤎 You have the prettiest brown eyes, and they show so much emotion",
-"😁 You don't smile often in your photos but you have a great smile",
-"🎮 How you carry my ass on Marvel Rivals then roast me for it",
-"🎨 You're an incredible artist and your art has a lot of emotional depth",
-"💡 You're creative",
-"🧠 How you're the genius mind behind nickislefttit",
-"🤣 You do that lil snort laugh that makes me feel like I'm the funniest dude on the planet despite my jokes being utter shite",
-"🥤 You tell me you don't drink fizzy drinks yet steal my Coke anyway :P",
-"🍦 You make fun of me for liking mint icecream (toothpaste ice cream)",
-"💪 Despite everything you've been through, you still continue to fight",
-"🫂 You feel comfortable enough around me that you don't feel shy",
-"🎶 You sing the most random songs and sometimes remix it into a completely different song or hum the beat so wrong that nobody can tell what the song is",
-"👂 Even when the crazy barefoot man starts talking to you, you never make him feel like he's being a nuisance (even when he is) and listen to what he has to say",
-"🧘 You have a lot of patience",
-"💭 You always think about others before yourself",
-"❤️ You have a big heart",
-"🌷 You're very gentle",
-"✨ Being around you makes me feel good about myself and you make me feel excited that I exist at the same time as you",
-"🥹 I miss you when you're not around (which clearly speaks for your personality)",
-"😏 You're mad cheeky",
-"💅 You're also mad sassy",
-"🕴️ Sometimes you jokingly act gangster but we both know better...",
-"🏴 You do a horrible Scottish accent and it makes me laugh (Sorry! :D)",
-"🎁 You keep everything anybody makes you as a souvenir which is very sweet",
-"🗣️ You're very honest and straight up in a world that isn't. That isn't very common anymore",
-"🌍 You make me believe in the good of the world again when most people are self absorbed (you're the complete opposite)",
-"🦴 You have the perfect bone structure. Good job"
-];
-
-const correctPassword = "Hazel<3";
-
-const passwordScreen = document.getElementById("passwordScreen");
-const passwordForm = document.getElementById("passwordForm");
-const passwordInput = document.getElementById("passwordInput");
-const passwordError = document.getElementById("passwordError");
-
-passwordForm.addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  if (passwordInput.value === correctPassword) {
-    showReminderPage();
-  } else {
-    passwordError.textContent = "Uh uh... That's not the password.";
-    passwordInput.select();
-  }
-});
-
-function showReminderPage() {
-  document.body.innerHTML = `
-    <main>
-      <header>
-        <h1>Eden</h1>
-        <p class="subtitle">for when you need a lil reminder</p>
-      </header>
-
-      <section class="card" aria-live="polite">
-        <div id="message" class="message placeholder">Click the button to see one.</div>
-        <button id="revealButton" type="button">Click me</button>
-        <div class="progress">
-          <span id="progressText">0 / 50</span>
-          <div class="progress-bar" aria-hidden="true">
-            <div id="progressFill" class="progress-fill"></div>
-          </div>
-        </div>
-        <button id="resetButton" class="reset" type="button">Start again</button>
-      </section>
-
-      <footer>50 reminders</footer>
-    </main>
-  `;
-
-  document.getElementById("revealButton").addEventListener("click", revealMessage);
-  document.getElementById("resetButton").addEventListener("click", resetGame);
-  resetGame();
-}
-
-let remaining = [];
-let shownCount = 0;
-
-function updateProgress() {
-  document.getElementById("progressText").textContent = `${shownCount} / ${messages.length}`;
-  document.getElementById("progressFill").style.width =
-    `${(shownCount / messages.length) * 100}%`;
-}
-
-function resetGame() {
-  remaining = messages.map((_, index) => index);
-  shownCount = 0;
-  const message = document.getElementById("message");
-  const button = document.getElementById("revealButton");
-  message.className = "message placeholder";
-  message.textContent = "Click the button to see one.";
-  button.disabled = false;
-  button.textContent = "Click me";
-  updateProgress();
-}
-
-function revealMessage() {
-  if (remaining.length === 0) {
-    const message = document.getElementById("message");
-    const button = document.getElementById("revealButton");
-    message.className = "message";
-    message.textContent = "You've seen them all.";
-    button.disabled = true;
-    button.textContent = "All done";
-    return;
-  }
-
-  const position = Math.floor(Math.random() * remaining.length);
-  const messageIndex = remaining.splice(position, 1)[0];
-  shownCount++;
-
-  const message = document.getElementById("message");
-  message.className = "message";
-  void message.offsetWidth;
-  message.classList.add("show");
-  message.textContent = messages[messageIndex];
-
-  updateProgress();
-
-  if (remaining.length === 0) {
-    document.getElementById("revealButton").textContent = "That's all";
-  }
-}
+const messages=[
+"😂 You make me laugh more than anyone - Sometimes you don't even have to try","💗 You're incredibly kind - you think about your impact on other people","🐱 You have a cute cat <3 (Not a euphemism, get your mind out of the gutter)","🫶 You compliment and uplift strangers - you make everyone feel better about themselves when you don't always see it for yourself","📞 You're there for me when I need it - you once said you would stay on the phone with me all night when I had anxiety about going to work","✨ You take words that already exist and improve on them in the best way - Which I think is splendificent","🎁 You buy me lil things when nobody else does - which I really appreciate","🥹 You let me see sides of you that you don't always show others - and I am always grateful of that","💛 You know the pain of going through mental health issues and never want anyone else to feel the same - you have a good way of uplifting people","🥡 You care about other people in ways that most don't - I love how you always buy homeless people food when we're out","🍽️ How you eat politely in public but are an absolute fiend when you're at home","🤎 That tiny lil mole you have above your left eyebrow","🌱 How you care about the environment","🌿 How you love nature","🐾 How you care about and treat animals","😎 How you're cool without trying","🚫 How you binned Nicki off after she became republican and weird","💅 How you can absolutely serve a lewk and yet you have no idea how good you actually look","🦐 You're incredibly beautiful and have no idea","☀️ How you cheer me up when I'm having a bad day","🌎 You make the world a better place just by existing","💖 You always make me feel appreciated and never take me for granted","👀 You know how to read a bitch when it's required","🤎 You have the prettiest brown eyes and they hold a lot of emotion","😁 You don't smile often in your photos but you have a great smile","🎮 How you carry my ass on Marvel Rivals then roast me for it","🎨 You're an incredible artist and your art has a lot of depth","💡 You're creative","🧠 How you're the genius mind behind nickislefttit","🤣 You do that lil snort laugh that makes me feel like I'm the funniest dude on the planet despite my jokes being utter shite","🥤 You tell me you don't drink fizzy drinks yet steal my Coke anyway :P","🍦 You make fun of me for liking mint icecream (toothpaste ice cream)","💪 Despite everything you'd been through, you still continue to fight","🫂 You feel comfortable enough around me that you don't feel shy","🎶 You sing the most random songs and sometimes remix it into a completely different song or hum the beat so wrong that nobody can tell what the song is","👂 Even when the crazy barefoot man starts talking to you, you never make him feel like he's being a nuisance (even when he is) and listen to what he has to say","🧘 You have a lot of patience","💭 You always think about others before yourself","❤️ You have a big heart","🌷 You're very gentle","✨ Being around you makes me feel good about myself and excited that I exist","🥹 I miss you when you're not around (which clearly speaks for your personality)","😏 You're mad cheeky","💅 You're also mad sassy","🕴️ Sometimes you jokingly act gangster but we both know better...","🏴 You do a horrible Scottish accent and it makes me laugh (Sorry! :D)","🎁 You keep everything anybody makes you as a souvenir which is very sweet","🗣️ You're very honest and straight up in a world that isn't which isn't very common anymore","🌍 You make me believe in the good of the world again when most people are self absorbed (you're the complete opposite)","🦴 You have the perfect bone structure. Good job genetics"];
+const password="Hazel<3";let remaining=[],shownCount=0;
+const app=document.getElementById('app'),form=document.getElementById('passwordForm'),input=document.getElementById('passwordInput'),error=document.getElementById('passwordError');
+form.addEventListener('submit',e=>{e.preventDefault();if(input.value===password){showReminderPage()}else{error.textContent="That's not the password.";input.select()}});
+function showReminderPage(){app.innerHTML=`<main><header><h1>Eden</h1><p class="subtitle">for when you need a reminder</p></header><section id="card" class="card" aria-live="polite"><div id="emoji" class="emoji">✦</div><div id="message" class="message placeholder">Click the button to see one.</div><button id="revealButton" class="reveal-button" type="button">Click me</button><div class="progress"><span id="progressText">0 / ${messages.length}</span><div class="progress-bar" aria-hidden="true"><div id="progressFill" class="progress-fill"></div></div></div><button id="resetButton" class="reset" type="button">Start again</button></section><footer>50 little reminders</footer></main>`;document.getElementById('revealButton').addEventListener('click',revealMessage);document.getElementById('resetButton').addEventListener('click',resetGame);resetGame()}
+function updateProgress(){document.getElementById('progressText').textContent=`${shownCount} / ${messages.length}`;document.getElementById('progressFill').style.width=`${shownCount/messages.length*100}%`}
+function resetGame(){remaining=messages.map((_,i)=>i);shownCount=0;const m=document.getElementById('message'),b=document.getElementById('revealButton');m.className='message placeholder';m.textContent='Click the button to see one.';document.getElementById('emoji').textContent='✦';b.disabled=false;b.textContent='Click me';updateProgress()}
+function sparkles(){const chars=['✦','✧','♡','·'];for(let i=0;i<8;i++){const s=document.createElement('span');s.className='sparkle';s.textContent=chars[Math.floor(Math.random()*chars.length)];s.style.left=(45+Math.random()*10)+'%';s.style.top=(40+Math.random()*20)+'%';s.style.setProperty('--dx',((Math.random()-.5)*180)+'px');s.style.setProperty('--dy',((Math.random()-.5)*130)+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),1000)}}
+function revealMessage(){if(!remaining.length){return}sparkles();const flash=document.createElement('div');flash.className='big-reveal';document.body.appendChild(flash);setTimeout(()=>flash.remove(),600);const position=Math.floor(Math.random()*remaining.length),index=remaining.splice(position,1)[0];shownCount++;const card=document.getElementById('card');card.style.setProperty('--tilt',`${(Math.random()-.5)*1.2}deg`);card.classList.remove('pop');void card.offsetWidth;card.classList.add('pop');const emoji=document.getElementById('emoji'),message=document.getElementById('message');const text=messages[index],match=text.match(/^\S+\s/);emoji.classList.remove('reveal');void emoji.offsetWidth;emoji.textContent=match?text.slice(0,match[0].trim().length):'✦';emoji.classList.add('reveal');message.className='message';void message.offsetWidth;message.classList.add('show');message.textContent=match?text.slice(match[0].length):text;updateProgress();if(!remaining.length){document.getElementById('revealButton').textContent="That's all";setTimeout(showCompletion,550)}}
+function showCompletion(){const card=document.getElementById('card');card.innerHTML=`<div class="completion"><div class="emoji">💗</div><h2>50 / 50</h2><p>You've seen them all.</p><button id="completionReset" type="button">Start again</button></div>`;document.getElementById('completionReset').addEventListener('click',()=>{location.reload()})}
 </script>
-
 </body>
 </html>
