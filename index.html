@@ -29,32 +29,627 @@ main{width:min(820px,100%);text-align:center;position:relative;z-index:2}header{
 .big-reveal{position:fixed;inset:0;pointer-events:none;z-index:10;background:radial-gradient(circle at center,rgba(255,255,255,.32),transparent 45%);animation:flash .55s ease-out forwards}@keyframes flash{0%{opacity:0}20%{opacity:1}100%{opacity:0}}.sparkle{position:fixed;z-index:11;pointer-events:none;font-size:1.25rem;animation:sparkleFly 1s ease-out forwards}@keyframes sparkleFly{0%{opacity:0;transform:translate(0,0) scale(.5)}20%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.15) rotate(25deg)}}
 .completion{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:1}.completion .emoji{font-size:4rem}.completion h2{font-size:1.7rem;margin:8px 0}.completion p{color:var(--muted)}
 @media(max-width:600px){body{padding:16px 10px}.password-form{flex-direction:column}.password-button{width:100%}.machine{padding:10px;border-radius:25px}.machine-top{height:44px}.display{min-height:360px;padding:25px 15px}.machine-controls{grid-template-columns:1fr}.dispense{width:100%}.machine-base{grid-template-columns:1fr}.heart{font-size:12px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-</style>
-</head>
-<body>
-<div id="floaties" aria-hidden="true">
-<span class="floating-decor" style="left:8%;top:17%;animation-delay:-1s">✦</span><span class="floating-decor" style="left:88%;top:22%;animation-delay:-4s">♡</span><span class="floating-decor" style="left:12%;top:78%;animation-delay:-2s">✧</span><span class="floating-decor" style="left:91%;top:74%;animation-delay:-5s">·</span><span class="floating-decor" style="left:5%;top:47%;animation-delay:-3s">✦</span><span class="floating-decor" style="left:94%;top:48%;animation-delay:-6s">♡</span><span class="floating-decor" style="left:22%;top:8%;animation-delay:-2.5s">✧</span><span class="floating-decor" style="left:76%;top:9%;animation-delay:-5.5s">·</span><span class="floating-decor" style="left:25%;top:91%;animation-delay:-4.5s">♡</span><span class="floating-decor" style="left:78%;top:89%;animation-delay:-1.5s">✦</span>
-<span class="float-dot" style="left:18%;top:30%;animation-delay:-2s"></span><span class="float-dot" style="left:82%;top:35%;animation-delay:-6s"></span><span class="float-dot" style="left:30%;top:68%;animation-delay:-4s"></span><span class="float-dot" style="left:70%;top:62%;animation-delay:-1s"></span>
-</div>
-<div id="app" class="screen">
-<section id="passwordScreen" class="password-screen">
-<div class="password-box"><h1>Eden</h1><p>Here's a few reasons why you make the world a better place</p><form id="passwordForm" class="password-form"><input id="passwordInput" class="password-input" type="password" placeholder="Password" autocomplete="off" aria-label="Password" required><button class="password-button" type="submit">Enter</button></form><p id="passwordError" class="password-error" aria-live="polite"></p></div>
-</section>
-</div>
-<script>
-const messages=[
-"😂 You make me laugh more than anyone - Sometimes you don't even have to try","💗 You're incredibly kind - you think about your impact on other people","🐱 You have a cute cat <3 (Not a euphemism, get your mind out of the gutter)","🫶 You compliment and uplift strangers - you make everyone feel better about themselves when you don't always see it for yourself","📞 You're there for me when I need it - you once said you would stay on the phone with me all night when I had anxiety about going to work","📖 You take words that already exist and improve on them in the best way - Which I think is splendificent","🎁 You buy me lil things when nobody else does - which I really appreciate","🥹 You let me see sides of you that you don't always show others - and I am always grateful of that","💛 You know the pain of going through mental health issues and never want anyone else to feel the same - you have a good way of uplifting people","🥡 You care about other people in ways that most don't - I like how you always buy homeless people food when we're out","🍽️ How you eat politely in public but are an absolute fiend when you're at home","⚫ That tiny lil mole you have above your left eyebrow","🌱 How you care about the environment","🌿 How you love nature","🐾 How you care about and treat animals","😎 How you're cool without trying","🚫 How you binned Nicki off after she became republican and weird","💅 How you can absolutely serve a lewk and yet you have no idea how good you actually look","🦐 You're incredibly beautiful and have no idea","☀️ How you cheer me up when I'm having a bad day","🌎 You make the world a better place just by existing","💖 You always make me feel appreciated and never take me for granted","👀 You know how to read a bitch when it's required","👁️👄👁️ You have the prettiest brown eyes","😁 You don't smile often in your photos but you have a great smile","🎮 How you carry my ass on Marvel Rivals then roast me for it","🎨 You're a very talented artist","💡 You're creative","🧠 How you're the genius mind behind nickislefttit","🤠 You do that lil snort laugh that makes me feel like I'm the funniest dude on the planet despite my jokes being shite","🥤 You tell me you don't drink fizzy drinks yet steal my Coke anyway :P","🍦 You make fun of me for liking mint icecream (toothpaste ice cream)","💪 Despite everything you've been through, you still continue to fight","🫂 You feel comfortable enough around me that you don't feel shy","🎶 You sing the most random songs and sometimes remix it into a completely different song or hum the beat so wrong that nobody can tell what the song is","👂 Even when the crazy barefoot man starts talking to you, you never make him feel like he's being a nuisance (even when he is) and listen to what he has to say","🧘 You have a lot of patience","💭 You always think about others before yourself","❤️ You have a big heart","🌷 You're very gentle","✨ Being around you makes me feel good about myself and excited that I exist at the same time as you","🥹 I miss you when you're not around (which clearly speaks for your personality)","😏 You're mad cheeky","💅 You're also mad sassy","🕴️ Sometimes you jokingly act gangster but we both know better...","🏴󠁧󠁢󠁳󠁣󠁴󠁿 You do a horrible Scottish accent and it makes me laugh (Sorry! :D)","🎁 You keep everything anybody makes you as a souvenir which is very sweet","🗣️ You're very honest and straight up in a world that isn't. - That isn't very common anymore","🌍 You make me believe in the good of the world again when most people are self absorbed (you're the complete opposite)","🦴 You have the perfect bone structure. Good job"];
-const password="Hazel<3";let remaining=[],shownCount=0;
-const app=document.getElementById('app'),form=document.getElementById('passwordForm'),input=document.getElementById('passwordInput'),error=document.getElementById('passwordError');
-form.addEventListener('submit',e=>{e.preventDefault();if(input.value===password)showReminderPage();else{error.textContent="That's not the password.";input.select()}});
-function showReminderPage(){app.innerHTML=`<main><header><h1>Complivending Machine</h1><p class="subtitle">Restocked Daily</p></header><section class="machine"><div class="machine-top"><span class="dot"></span><strong>EDEN'S REMINDER MACHINE</strong><span class="dot"></span></div><div class="machine-window"><section id="display" class="display" aria-live="polite"><div id="emoji" class="emoji">✦</div><div id="message" class="message placeholder">Press the button to dispense a reminder.</div></section></div><div class="machine-controls"><div class="slot-panel"><div><div class="slot-label">Insert Coin</div><div style="font-size:.8rem;color:#776b77;margin-top:5px">One reminder at a time</div></div><div class="coin-slot" aria-hidden="true"></div></div><button id="revealButton" class="dispense" type="button">DISPENSE REMINDER</button></div><div class="machine-base"><div class="tiny-panel"><div class="tiny-title">Collection</div><div class="progress-count" id="progressText">0 / ${messages.length}</div></div><div class="tiny-panel"><div class="tiny-title">50 reminders</div><div class="heart-track" id="heartTrack" aria-label="Reminder progress"></div></div></div><button id="resetButton" class="reset" type="button">Start again</button></section><footer>Handmade By Emiel</footer></main>`;buildHearts();document.getElementById('revealButton').addEventListener('click',revealMessage);document.getElementById('resetButton').addEventListener('click',resetGame);resetGame()}
-function buildHearts(){const track=document.getElementById('heartTrack');for(let i=0;i<messages.length;i++){const h=document.createElement('span');h.className='heart';h.textContent='♥';h.dataset.index=i;track.appendChild(h)}}
-function updateProgress(newHeartIndex=-1){document.getElementById('progressText').textContent=`${shownCount} / ${messages.length}`;const hearts=document.querySelectorAll('.heart');hearts.forEach((h,i)=>h.classList.toggle('filled',i<shownCount));if(newHeartIndex>=0&&hearts[newHeartIndex]){hearts[newHeartIndex].classList.remove('new');void hearts[newHeartIndex].offsetWidth;hearts[newHeartIndex].classList.add('new')}}
-function resetGame(){remaining=messages.map((_,i)=>i);shownCount=0;const m=document.getElementById('message'),b=document.getElementById('revealButton'),e=document.getElementById('emoji');m.className='message placeholder';m.textContent='Press the button to dispense a reminder.';e.textContent='✦';b.disabled=false;b.textContent='DISPENSE REMINDER';updateProgress()}
-function sparkles(){const chars=['✦','✧','♡','·'];for(let i=0;i<10;i++){const s=document.createElement('span');s.className='sparkle';s.textContent=chars[Math.floor(Math.random()*chars.length)];s.style.left=(43+Math.random()*14)+'%';s.style.top=(38+Math.random()*24)+'%';s.style.setProperty('--dx',((Math.random()-.5)*210)+'px');s.style.setProperty('--dy',((Math.random()-.5)*150)+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),1000)}}
-function revealMessage(){if(!remaining.length)return;sparkles();const flash=document.createElement('div');flash.className='big-reveal';document.body.appendChild(flash);setTimeout(()=>flash.remove(),600);const position=Math.floor(Math.random()*remaining.length),index=remaining.splice(position,1)[0];shownCount++;const display=document.getElementById('display');display.style.setProperty('--tilt',`${(Math.random()-.5)*1.2}deg`);display.classList.remove('pop');void display.offsetWidth;display.classList.add('pop');const emoji=document.getElementById('emoji'),message=document.getElementById('message'),text=messages[index],match=text.match(/^\S+\s/);emoji.classList.remove('reveal');void emoji.offsetWidth;emoji.textContent=match?text.slice(0,match[0].trim().length):'✦';emoji.classList.add('reveal');message.className='message';void message.offsetWidth;message.classList.add('show');message.textContent=match?text.slice(match[0].length):text;updateProgress(shownCount-1);if(!remaining.length){document.getElementById('revealButton').textContent='SOLD OUT';setTimeout(showCompletion,650)}}
-function showCompletion(){const display=document.getElementById('display');display.innerHTML='<div class="completion"><div class="emoji">🎰</div><h2>50 / 50</h2><p>Restocking shortly.</p></div>';const b=document.getElementById('revealButton');b.disabled=true;b.textContent='SOLD OUT';sparkles()}
-</script>
-</body>
-</html>
+
+/* MOBILE-FRIENDLY OVERRIDES */
+@media (max-width: 600px) {
+  body {
+    min-height: 100svh;
+    padding: 12px 8px;
+    align-items: flex-start;
+  }
+
+  .screen, main {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .password-screen {
+    min-height: calc(100svh - 24px);
+    padding: 8px 0;
+  }
+
+  .password-box {
+    width: 100%;
+    padding: 30px 18px;
+    border-radius: 24px;
+  }
+
+  .password-box h1 {
+    font-size: clamp(3rem, 18vw, 4.5rem);
+  }
+
+  .password-box p {
+    font-size: .98rem;
+    line-height: 1.45;
+  }
+
+  .password-form {
+    width: 100%;
+    gap: 9px;
+  }
+
+  .password-input,
+  .password-button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  header {
+    margin-bottom: 10px;
+  }
+
+  header h1 {
+    font-size: clamp(2rem, 11vw, 3.1rem);
+  }
+
+  .subtitle {
+    font-size: .95rem;
+  }
+
+  .machine {
+    width: 100%;
+    padding: 8px;
+    border-width: 2px;
+    border-radius: 22px;
+  }
+
+  .machine-top {
+    height: 42px;
+    padding: 0 8px;
+    border-radius: 17px 17px 10px 10px;
+    gap: 7px;
+  }
+
+  .machine-top strong {
+    font-size: .68rem;
+    letter-spacing: .07em;
+    white-space: nowrap;
+  }
+
+  .machine-top .dot {
+    width: 7px;
+    height: 7px;
+    flex: 0 0 auto;
+  }
+
+  .machine-window {
+    margin-top: 9px;
+    padding: 7px;
+    border-radius: 18px;
+  }
+
+  .display {
+    min-height: 390px;
+    padding: 25px 14px;
+    border-radius: 13px;
+  }
+
+  .emoji {
+    font-size: clamp(2.6rem, 14vw, 3.5rem);
+    margin-bottom: 13px;
+  }
+
+  .message {
+    width: 100%;
+    min-height: 155px;
+    max-width: 100%;
+    padding: 0 3px;
+    font-size: clamp(1rem, 4.2vw, 1.25rem);
+    line-height: 1.48;
+    overflow-wrap: anywhere;
+  }
+
+  .message.placeholder {
+    font-size: .95rem;
+  }
+
+  .machine-controls {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 9px;
+  }
+
+  .slot-panel {
+    min-height: 66px;
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+
+  .slot-label {
+    font-size: .62rem;
+  }
+
+  .coin-slot {
+    width: 64px;
+  }
+
+  .dispense {
+    width: 100%;
+    min-height: 58px;
+    min-width: 0;
+    border-radius: 15px;
+    font-size: .92rem;
+    padding: 13px 16px;
+  }
+
+  .machine-base {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 9px;
+  }
+
+  .tiny-panel {
+    border-radius: 14px;
+    padding: 10px 12px;
+  }
+
+  .tiny-title {
+    margin-bottom: 5px;
+    font-size: .6rem;
+  }
+
+  .heart-track {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 2px;
+    justify-items: center;
+  }
+
+  .heart {
+    font-size: 12px;
+    line-height: 1.1;
+  }
+
+  .reset {
+    min-height: 40px;
+    margin-top: 7px;
+    padding: 7px 12px;
+  }
+
+  footer {
+    margin-top: 9px;
+    padding-bottom: 4px;
+  }
+
+  .completion {
+    min-height: 300px;
+    padding: 10px;
+  }
+
+  .completion h2 {
+    font-size: 1.45rem;
+  }
+
+  .completion p {
+    font-size: .9rem;
+  }
+
+  /* Keep decorative elements away from the phone's main content. */
+  .floating-decor {
+    font-size: 1rem;
+  }
+
+  .float-dot {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+@media (max-width: 360px) {
+  body {
+    padding: 8px 6px;
+  }
+
+  .machine {
+    padding: 6px;
+  }
+
+  .machine-top strong {
+    font-size: .59rem;
+  }
+
+  .display {
+    min-height: 365px;
+    padding: 21px 10px;
+  }
+
+  .message {
+    min-height: 145px;
+    font-size: .96rem;
+  }
+
+  .slot-panel {
+    min-height: 60px;
+  }
+
+  .dispense {
+    min-height: 54px;
+  }
+}
+
+
+/* RETRO CANDY VENDING MACHINE REDESIGN */
+:root{
+  --vm-pink:#ee91b8;
+  --vm-pink-light:#ffd7e8;
+  --vm-pink-deep:#bd4f82;
+  --vm-purple:#79577f;
+  --vm-cream:#fffaf8;
+  --vm-metal-1:#fff;
+  --vm-metal-2:#e6d9e3;
+  --vm-metal-3:#bda9ba;
+  --vm-dark:#49384b;
+}
+
+.machine{
+  position:relative;
+  width:min(720px,100%);
+  padding:14px;
+  border-radius:30px;
+  background:
+    linear-gradient(90deg,
+      #cbb8c8 0,
+      #fdf9fc 4%,
+      #eee3eb 9%,
+      #fff 50%,
+      #e8dce6 91%,
+      #c4b0c1 100%);
+  border:3px solid #a890a5;
+  box-shadow:
+    0 34px 70px rgba(65,42,69,.28),
+    0 8px 18px rgba(65,42,69,.16),
+    inset 0 2px 0 #fff,
+    inset 0 -8px 14px rgba(70,45,75,.12);
+  overflow:hidden;
+}
+
+.machine::before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.9);
+  pointer-events:none;
+  z-index:5;
+}
+
+.machine::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:10%;
+  width:25%;
+  height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.24),transparent);
+  transform:skewX(-16deg);
+  pointer-events:none;
+  z-index:6;
+}
+
+.machine-top{
+  position:relative;
+  height:76px;
+  border-radius:20px 20px 9px 9px;
+  background:
+    linear-gradient(180deg,#ffe4ef 0%,#f7b8d2 35%,#dc78a4 100%);
+  border:3px solid #ad527d;
+  box-shadow:
+    inset 0 4px 0 rgba(255,255,255,.85),
+    inset 0 -8px 12px rgba(120,47,82,.2),
+    0 4px 9px rgba(80,45,75,.16);
+  overflow:hidden;
+}
+
+.machine-top::before{
+  content:"✦  EDEN'S REMINDER MACHINE  ✦";
+  position:absolute;
+  inset:9px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:linear-gradient(180deg,#fff5fa,#f5b5d0);
+  color:#7c3d5e;
+  font-weight:900;
+  font-size:clamp(.7rem,2.2vw,.95rem);
+  letter-spacing:.13em;
+  text-shadow:0 1px #fff;
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,.8),
+    0 2px 4px rgba(100,45,75,.15);
+  z-index:1;
+}
+
+.machine-top strong{
+  display:none;
+}
+
+.machine-top .dot{
+  position:absolute;
+  z-index:2;
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 10px #fff,0 0 18px rgba(255,255,255,.8);
+}
+.machine-top .dot:first-child{left:10px}
+.machine-top .dot:last-child{right:10px}
+
+.machine-window{
+  position:relative;
+  margin-top:12px;
+  padding:10px;
+  border-radius:21px;
+  background:
+    linear-gradient(145deg,#5f5362,#a99aaa 35%,#5c5060 100%);
+  border:3px solid #4c414f;
+  box-shadow:
+    inset 0 3px 8px rgba(0,0,0,.45),
+    inset 0 -2px 4px rgba(255,255,255,.2),
+    0 5px 12px rgba(60,40,65,.2);
+}
+
+.machine-window::before{
+  content:"";
+  position:absolute;
+  left:15px;
+  right:15px;
+  top:5px;
+  height:5px;
+  border-radius:99px;
+  background:linear-gradient(90deg,#f6bfd8,#fff,#f6bfd8);
+  opacity:.7;
+}
+
+.display{
+  min-height:365px;
+  border-radius:13px;
+  background:
+    linear-gradient(135deg,
+      rgba(255,255,255,.99),
+      rgba(255,246,251,.97) 45%,
+      rgba(242,236,255,.97));
+  border:3px solid rgba(255,255,255,.85);
+  box-shadow:
+    inset 0 0 0 2px rgba(110,85,115,.08),
+    inset 0 8px 25px rgba(255,255,255,.8),
+    inset 0 -12px 30px rgba(115,85,120,.08);
+}
+
+.display::before{
+  content:"";
+  position:absolute;
+  width:170%;
+  height:35px;
+  top:18%;
+  left:-135%;
+  border-radius:99px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
+  transform:rotate(-20deg);
+  animation:glassSweep 7s ease-in-out infinite;
+  z-index:2;
+  pointer-events:none;
+}
+
+@keyframes glassSweep{
+  0%,55%{left:-135%;opacity:0}
+  63%{opacity:1}
+  75%,100%{left:135%;opacity:0}
+}
+
+.display::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:11px;
+  border:1px solid rgba(120,95,125,.12);
+  pointer-events:none;
+}
+
+.emoji{
+  position:relative;
+  z-index:3;
+  font-size:clamp(3rem,9vw,4.2rem);
+  filter:drop-shadow(0 5px 4px rgba(80,50,85,.16));
+}
+
+.message{
+  position:relative;
+  z-index:3;
+  max-width:620px;
+  font-weight:600;
+}
+
+.machine-controls{
+  display:grid;
+  grid-template-columns:1fr 205px;
+  gap:12px;
+  margin-top:12px;
+  padding:10px;
+  border-radius:18px;
+  background:linear-gradient(180deg,#f7edf3,#d8c7d4);
+  border:2px solid #bda9ba;
+  box-shadow:
+    inset 0 2px 0 #fff,
+    inset 0 -5px 8px rgba(75,50,80,.1);
+}
+
+.slot-panel{
+  min-height:72px;
+  border-radius:13px;
+  background:linear-gradient(145deg,#fff,#e9dce6);
+  border:2px solid rgba(95,70,98,.15);
+  box-shadow:
+    inset 0 2px 0 #fff,
+    inset 0 -3px 5px rgba(75,50,80,.08);
+}
+
+.coin-slot{
+  position:relative;
+  width:88px;
+  height:16px;
+  border-radius:99px;
+  background:#3d3541;
+  box-shadow:
+    inset 0 3px 5px #17131a,
+    0 1px 0 #fff;
+}
+
+.coin-slot::after{
+  content:"";
+  position:absolute;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#d9cbd8;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+
+.dispense{
+  min-width:0;
+  min-height:72px;
+  border-radius:15px;
+  background:
+    linear-gradient(180deg,#ffd0e2 0%,#e98eb4 43%,#c65d8b 100%);
+  border:3px solid #ad4d79;
+  box-shadow:
+    0 7px 0 #944266,
+    0 13px 18px rgba(92,43,70,.24),
+    inset 0 3px 0 rgba(255,255,255,.65);
+  font-size:.95rem;
+  letter-spacing:.04em;
+}
+
+.dispense::before{
+  content:"";
+  position:absolute;
+  inset:6px;
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:9px;
+  pointer-events:none;
+}
+
+.dispense:hover{
+  background:linear-gradient(180deg,#ffdaea,#ee9bc0 43%,#cd6793 100%);
+}
+
+.machine-base{
+  margin-top:12px;
+  padding:9px;
+  border-radius:17px;
+  background:linear-gradient(180deg,#eadde7,#cdbacb);
+  border:2px solid #b39eaf;
+  box-shadow:inset 0 2px 0 #fff;
+}
+
+.tiny-panel{
+  border-radius:12px;
+  background:linear-gradient(145deg,#fff,#e8dbe5);
+  border:1px solid rgba(90,65,95,.15);
+  box-shadow:inset 0 2px 0 #fff;
+}
+
+.heart-track{
+  padding:5px 7px;
+  border-radius:8px;
+  background:#d9cad7;
+  box-shadow:
+    inset 0 2px 4px rgba(55,40,60,.12),
+    0 1px 0 rgba(255,255,255,.8);
+}
+
+.heart{
+  color:#b8a8b7;
+  text-shadow:0 1px 1px rgba(75,50,80,.12);
+}
+
+.heart.filled{
+  color:#d45e90;
+  text-shadow:0 0 7px rgba(212,94,144,.35);
+}
+
+.reset{
+  opacity:.78;
+}
+
+/* Stronger responsive composition, without changing content. */
+@media(max-width:600px){
+  .machine{
+    padding:8px;
+    border-radius:23px;
+  }
+
+  .machine-top{
+    height:62px;
+  }
+
+  .machine-top::before{
+    inset:8px 10px;
+    font-size:.62rem;
+    letter-spacing:.08em;
+  }
+
+  .machine-window{
+    margin-top:9px;
+    padding:7px;
+    border-radius:17px;
+  }
+
+  .display{
+    min-height:390px;
+    padding:24px 13px;
+  }
+
+  .machine-controls{
+    grid-template-columns:1fr;
+    padding:7px;
+  }
+
+  .slot-panel{
+    min-height:62px;
+  }
+
+  .dispense{
+    min-height:61px;
+  }
+
+  .machine-base{
+    padding:7px;
+  }
+}
+
+@media(max-width:360px){
+  .machine-top{
+    height:56px;
+  }
+
+  .machine-top::before{
+    font-size:.54rem;
+    letter-spacing:.055em;
+  }
+
+  .display{
+    min-height:360px;
+  }
+}
+
+
+/* FIX: remove the unintended grey-looking window block */
+.machine-window{
+  background: linear-gradient(145deg,#eee4eb,#d8c7d4);
+  border-color: rgba(112,88,114,.18);
+  box-shadow:
+    inset 0 2px 5px rgba(255,255,255,.72),
+    0 3px 8px rgba(60,40,65,.08);
+}
+
+.machine-window::before{
+  background: linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+}
+
+@media(max-width:600px){
+  .machine-window{
+  
